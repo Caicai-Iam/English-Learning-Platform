@@ -1,6 +1,6 @@
 # English Learning Platform
 
-A powerful, local-first English learning web application inspired by OIO Lab. Learn English with interactive audio, transcriptions, and dictation practice.
+A powerful, local-first English learning web application. Learn English with interactive audio, transcriptions, and dictation practice.
 
 ## Features
 
