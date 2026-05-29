@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent-color: #4a90e2;
+            --accent-light: #e8f1ff;
+        }
+
+        html.dark {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #444444;
+            --accent-color: #6ba3f5;
+            --accent-light: #1e3a5f;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .app-container {
+            min-height: 100vh;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+
+        .header-left h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .app-main {
+            flex: 1;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-light);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Text Input Section */
+        .text-input-container {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .input-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .help-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .text-input-field {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .text-input-field:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .input-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .voice-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voice-selector label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .gender-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-generate:hover {
+            background-color: #3a7bc8;
+        }
+
+        .status-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* Audio Player */
+        .audio-player-container {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .audio-player-container.active {
+            display: block;
+        }
+
+        .player-section {
+            margin-bottom: 24px;
+        }
+
+        .play-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .btn-play {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+        }
+
+        .progress-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .time-display {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--border-color);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .progress-bar::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .playback-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .playback-rate-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .mode-tab {
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .mode-tab.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .sentence-display {
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .sentence-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .sentence-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-nav {
+            padding: 8px 16px;
+            background-color: var(--accent-light);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .sentence-counter {
+            color: var(--text-secondary);
+            font-size: 14px;
+            min-width: 60px;
+        }
+
+        /* Dictation Practice */
+        .dictation-practice-container {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .dictation-practice-container.active {
+            display: block;
+        }
+
+        .dictation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dictation-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .dictation-content {
+            margin-bottom: 20px;
+        }
+
+        .dictation-item {
+            margin-bottom: 24px;
+            padding: 16px;
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 4px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .dictation-item.active {
+            border-left-color: var(--accent-color);
+            background-color: var(--accent-light);
+        }
+
+        .dictation-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .dictation-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+
+        .dictation-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .answer-preview {
+            padding: 8px 12px;
+            background-color: rgba(74, 144, 226, 0.1);
+            border-radius: 4px;
+            display: none;
+        }
+
+        .answer-preview small {
+            color: var(--text-secondary);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .dictation-item.active .answer-preview {
+            display: block;
+        }
+
+        .dictation-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .btn-back {
+            padding: 10px 20px;
+            background-color: var(--border-color);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-clear {
+            padding: 10px 24px;
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-clear:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            background-color: var(--accent-light);
+        }
+
+        /* History */
+        .history-list-container {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .history-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s;
+        }
+
+        .history-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateX(4px);
+        }
+
+        .history-content {
+            flex: 1;
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .history-preview {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 16px;
+            flex-shrink: 0;
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-action:hover {
+            background-color: var(--accent-light);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-load {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-download {
+            color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .btn-delete {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 15px 20px;
+            }
+
+            .header-left h1 {
+                font-size: 20px;
+            }
+
+            .app-main {
+                padding: 20px;
+            }
+
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .history-actions {
+                margin-left: 0;
+                margin-top: 12px;
+                width: 100%;
+            }
+
+            .btn-action {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <h1>English Learning Platform</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">☀️</button>
+        </header>
+
+        <main class="app-main">
+            <!-- Input Section -->
+            <div id="inputSection">
+                <div class="text-input-container">
+                    <div class="input-header">
+                        <h2>输入文本</h2>
+                        <div class="help-icon">?</div>
+                    </div>
+
+                    <textarea
+                        id="textInput"
+                        class="text-input-field"
+                        placeholder="Paste or type your English text here..."
+                    ></textarea>
+
+                    <div class="input-controls">
+                        <div class="voice-selector">
+                            <label>选择音色</label>
+                            <select id="voiceGender" class="gender-select">
+                                <option value="female">女 · heart</option>
+                                <option value="male">男 · heart</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn-generate" id="generateBtn">生成音频与字幕</button>
+
+                    <div class="status-text" id="statusText">准备生成音频...</div>
+                </div>
+            </div>
+
+            <!-- Practice Section -->
+            <div id="practiceSection" style="display: none;">
+                <div class="audio-player-container active">
+                    <div class="player-section">
+                        <div class="play-controls">
+                            <button class="btn-play" id="playBtn">▶</button>
+                            <div class="progress-container">
+                                <div class="time-display">
+                                    <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="0" class="progress-bar" id="progressBar">
+                            </div>
+                        </div>
+
+                        <div class="playback-controls">
+                            <select id="playbackRate" class="playback-rate-select">
+                                <option value="0.75">0.75x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="1.5">1.5x</option>
+                                <option value="2">2x</option>
+                            </select>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="singleLoop">
+                                <span class="checkbox-text">单句循环</span>
+                            </label>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="fullLoop">
+                                <span class="checkbox-text">整体循环</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mode-tabs">
+                        <button class="mode-tab active">模式</button>
+                        <button class="mode-tab active">字幕</button>
+                        <button class="mode-tab active">听写</button>
+                        <button class="mode-tab">创建填空</button>
+                        <button class="mode-tab">填空练习</button>
+                    </div>
+
+                    <div class="sentence-display">
+                        <p class="sentence-text" id="sentenceText">Loading...</p>
+                        <div class="sentence-controls">
+                            <button class="btn-nav" id="prevBtn">← 上一句</button>
+                            <span class="sentence-counter"><span id="currentIndex">0</span> / <span id="totalSentences">0</span></span>
+                            <button class="btn-nav" id="nextBtn">下一句 →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dictation-practice-container active">
+                    <div class="dictation-header">
+                        <h3>练习</h3>
+                        <div class="help-icon">?</div>
+                    </div>
+
+                    <div class="dictation-content" id="dictationContent">
+                        <!-- Dictation items will be generated here -->
+                    </div>
+
+                    <div class="dictation-footer">
+                        <button class="btn-back" id="backBtn">← Back</button>
+                        <button class="btn-clear" id="clearBtn">清空</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div class="history-list-container">
+                <h3 class="history-title">Learning History</h3>
+                <div id="historyContent">
+                    <div class="history-empty">
+                        <p>No learning records yet</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <audio id="audioElement"></audio>
+
+    <script>
+        // State management
+        const state = {
+            isDarkMode: localStorage.getItem('darkMode') === 'true',
+            textInput: '',
+            voiceGender: 'female',
+            sentences: [],
+            currentSentenceIndex: 0,
+            isPlaying: false,
+            playbackRate: 1,
+            isSingleLoop: false,
+            isFullLoop: false,
+            dictationAnswers: {},
+            history: JSON.parse(localStorage.getItem('learningHistory')) || [],
+        }
+
+        // DOM elements
+        const themeToggle = document.getElementById('themeToggle')
+        const textInput = document.getElementById('textInput')
+        const voiceGender = document.getElementById('voiceGender')
+        const generateBtn = document.getElementById('generateBtn')
+        const statusText = document.getElementById('statusText')
+        const inputSection = document.getElementById('inputSection')
+        const practiceSection = document.getElementById('practiceSection')
+        const playBtn = document.getElementById('playBtn')
+        const progressBar = document.getElementById('progressBar')
+        const audioElement = document.getElementById('audioElement')
+        const playbackRateSelect = document.getElementById('playbackRate')
+        const singleLoopCheckbox = document.getElementById('singleLoop')
+        const fullLoopCheckbox = document.getElementById('fullLoop')
+        const sentenceText = document.getElementById('sentenceText')
+        const currentIndexSpan = document.getElementById('currentIndex')
+        const totalSentencesSpan = document.getElementById('totalSentences')
+        const prevBtn = document.getElementById('prevBtn')
+        const nextBtn = document.getElementById('nextBtn')
+        const dictationContent = document.getElementById('dictationContent')
+        const clearBtn = document.getElementById('clearBtn')
+        const backBtn = document.getElementById('backBtn')
+        const historyContent = document.getElementById('historyContent')
+        const currentTimeSpan = document.getElementById('currentTime')
+        const durationSpan = document.getElementById('duration')
+
+        // Initialize theme
+        function initTheme() {
+            if (state.isDarkMode) {
+                document.documentElement.classList.add('dark')
+                themeToggle.textContent = '🌙'
+            } else {
+                document.documentElement.classList.remove('dark')
+                themeToggle.textContent = '☀️'
+            }
+        }
+
+        // Theme toggle
+        themeToggle.addEventListener('click', () => {
+            state.isDarkMode = !state.isDarkMode
+            localStorage.setItem('darkMode', state.isDarkMode)
+            initTheme()
+        })
+
+        // Format time
+        function formatTime(seconds) {
+            if (!seconds || isNaN(seconds)) return '0:00'
+            const mins = Math.floor(seconds / 60)
+            const secs = Math.floor(seconds % 60)
+            return `${mins}:${secs.toString().padStart(2, '0')}`
+        }
+
+        // Split sentences
+        function splitSentences(text) {
+            return text
+                .split(/([.!?])/g)
+                .reduce((acc, curr, i, arr) => {
+                    if (i % 2 === 0 && curr.trim()) {
+                        acc.push(curr.trim() + (arr[i + 1] || ''))
+                    }
+                    return acc
+                }, [])
+                .filter(s => s.trim().length > 0)
+        }
+
+        // Generate speech
+        generateBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim()
+            if (!text) {
+                alert('Please enter some text')
+                return
+            }
+
+            state.sentences = splitSentences(text)
+            state.currentSentenceIndex = 0
+            state.dictationAnswers = {}
+
+            totalSentencesSpan.textContent = state.sentences.length
+            updateSentenceDisplay()
+
+            // Generate speech using Web Speech API
+            generateSpeech()
+
+            // Switch to practice mode
+            inputSection.style.display = 'none'
+            practiceSection.style.display = 'block'
+
+            // Save to history
+            saveToHistory(text)
+        })
+
+        // Generate speech
+        function generateSpeech() {
+            const synthesis = window.speechSynthesis
+            let currentIndex = 0
+
+            function speakSentence(index) {
+                if (index >= state.sentences.length) {
+                    statusText.textContent = 'Speech generation complete'
+                    return
+                }
+
+                const utterance = new SpeechSynthesisUtterance(state.sentences[index])
+                utterance.lang = 'en-US'
+                utterance.pitch = state.voiceGender === 'female' ? 1.2 : 0.8
+                utterance.rate = 0.9
+
+                utterance.onend = () => {
+                    speakSentence(index + 1)
+                }
+
+                synthesis.speak(utterance)
+            }
+
+            statusText.textContent = 'Generating audio...'
+            speakSentence(0)
+        }
+
+        // Update sentence display
+        function updateSentenceDisplay() {
+            const sentence = state.sentences[state.currentSentenceIndex]
+            sentenceText.textContent = sentence
+            currentIndexSpan.textContent = state.currentSentenceIndex + 1
+
+            // Update dictation highlighting
+            const dictItems = document.querySelectorAll('.dictation-item')
+            dictItems.forEach((item, index) => {
+                if (index === state.currentSentenceIndex) {
+                    item.classList.add('active')
+                } else {
+                    item.classList.remove('active')
+                }
+            })
+        }
+
+        // Previous sentence
+        prevBtn.addEventListener('click', () => {
+            if (state.currentSentenceIndex > 0) {
+                state.currentSentenceIndex--
+                updateSentenceDisplay()
+            }
+        })
+
+        // Next sentence
+        nextBtn.addEventListener('click', () => {
+            if (state.currentSentenceIndex < state.sentences.length - 1) {
+                state.currentSentenceIndex++
+                updateSentenceDisplay()
+            }
+        })
+
+        // Play/Pause
+        playBtn.addEventListener('click', () => {
+            if (state.isPlaying) {
+                window.speechSynthesis.pause()
+                playBtn.textContent = '▶'
+                state.isPlaying = false
+            } else {
+                window.speechSynthesis.resume()
+                playBtn.textContent = '⏸'
+                state.isPlaying = true
+            }
+        })
+
+        // Playback rate
+        playbackRateSelect.addEventListener('change', (e) => {
+            state.playbackRate = parseFloat(e.target.value)
+            window.speechSynthesis.rate = state.playbackRate
+        })
+
+        // Loop options
+        singleLoopCheckbox.addEventListener('change', (e) => {
+            state.isSingleLoop = e.target.checked
+        })
+
+        fullLoopCheckbox.addEventListener('change', (e) => {
+            state.isFullLoop = e.target.checked
+        })
+
+        // Generate dictation items
+        function generateDictationItems() {
+            dictationContent.innerHTML = state.sentences
+                .map((sentence, index) => `
+                    <div class="dictation-item ${index === 0 ? 'active' : ''}">
+                        <label class="dictation-label">第 ${index + 1} 句听写...</label>
+                        <textarea 
+                            class="dictation-input" 
+                            placeholder="Listen and type sentence ${index + 1}..."
+                            data-index="${index}"
+                        ></textarea>
+                        <div class="answer-preview">
+                            <small>${sentence}</small>
+                        </div>
+                    </div>
+                `)
+                .join('')
+
+            // Add event listeners to dictation inputs
+            document.querySelectorAll('.dictation-input').forEach(input => {
+                input.addEventListener('input', (e) => {
+                    const index = parseInt(e.target.dataset.index)
+                    state.dictationAnswers[index] = e.target.value
+                })
+            })
+        }
+
+        // Clear dictation
+        clearBtn.addEventListener('click', () => {
+            state.dictationAnswers = {}
+            document.querySelectorAll('.dictation-input').forEach(input => {
+                input.value = ''
+            })
+        })
+
+        // Back button
+        backBtn.addEventListener('click', () => {
+            inputSection.style.display = 'block'
+            practiceSection.style.display = 'none'
+            window.speechSynthesis.cancel()
+            state.isPlaying = false
+            playBtn.textContent = '▶'
+        })
+
+        // Save to history
+        function saveToHistory(text) {
+            const record = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString(),
+                content: text.slice(0, 100) + (text.length > 100 ? '...' : ''),
+                fullContent: text,
+                sentences: state.sentences,
+            }
+
+            state.history.unshift(record)
+            localStorage.setItem('learningHistory', JSON.stringify(state.history))
+            renderHistory()
+        }
+
+        // Render history
+        function renderHistory() {
+            if (state.history.length === 0) {
+                historyContent.innerHTML = '<div class="history-empty"><p>No learning records yet</p></div>'
+                return
+            }
+
+            historyContent.innerHTML = state.history
+                .map(
+                    (item) => `
+                    <div class="history-item">
+                        <div class="history-content">
+                            <div class="history-date">${item.timestamp}</div>
+                            <div class="history-preview">${item.content}</div>
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn-action btn-load" onclick="loadHistory(${item.id})">
+                                载入
+                            </button>
+                            <button class="btn-action btn-download" onclick="downloadHistory(${item.id})">
+                                下载
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteHistory(${item.id})">
+                                删除
+                            </button>
+                        </div>
+                    </div>
+                `
+                )
+                .join('')
+        }
+
+        // Load history
+        window.loadHistory = (id) => {
+            const record = state.history.find(h => h.id === id)
+            if (record) {
+                textInput.value = record.fullContent
+                generateBtn.click()
+            }
+        }
+
+        // Download history
+        window.downloadHistory = (id) => {
+            const record = state.history.find(h => h.id === id)
+            if (record) {
+                const element = document.createElement('a')
+                const file = new Blob([record.fullContent], { type: 'text/plain' })
+                element.href = URL.createObjectURL(file)
+                element.download = `learning-${id}.txt`
+                document.body.appendChild(element)
+                element.click()
+                document.body.removeChild(element)
+            }
+        }
+
+        // Delete history
+        window.deleteHistory = (id) => {
+            state.history = state.history.filter(h => h.id !== id)
+            localStorage.setItem('learningHistory', JSON.stringify(state.history))
+            renderHistory()
+        }
+
+        // Initialize
+        initTheme()
+        renderHistory()
+    </script>
+</body>
+</html>
