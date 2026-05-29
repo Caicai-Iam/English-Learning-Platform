@@ -1,0 +1,35 @@
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--accent-light);
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.theme-toggle.dark {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.theme-toggle.dark:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}

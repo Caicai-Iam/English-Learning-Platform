@@ -1,0 +1,138 @@
+.dictation-practice-container {
+  background-color: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dictation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dictation-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.help-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.dictation-content {
+  margin-bottom: 20px;
+}
+
+.no-content {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+.dictation-item {
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  border-left: 4px solid var(--border-color);
+  transition: all 0.3s;
+}
+
+.dictation-item.active {
+  border-left-color: var(--accent-color);
+  background-color: var(--accent-light);
+}
+
+.dictation-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.dictation-input {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 10px;
+  transition: border-color 0.3s;
+}
+
+.dictation-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.answer-preview {
+  padding: 8px 12px;
+  background-color: rgba(74, 144, 226, 0.1);
+  border-radius: 4px;
+  display: none;
+}
+
+.answer-preview small {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.dictation-item.active .answer-preview {
+  display: block;
+}
+
+.dictation-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-clear {
+  padding: 10px 24px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.btn-clear:hover {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+  background-color: var(--accent-light);
+}
+
+@media (max-width: 768px) {
+  .dictation-practice-container {
+    padding: 16px;
+  }
+
+  .dictation-item {
+    margin-bottom: 16px;
+    padding: 12px;
+  }
+}
